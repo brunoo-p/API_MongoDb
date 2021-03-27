@@ -44,7 +44,11 @@ namespace Api_Mongo.Application.Controllers
         [HttpGet]
         public ActionResult GetInfected()
         {
-            var infectedList = _infectedCollection.Find(Builders<Infected>.Filter.Where(_ => _.IsDeleted != true)).ToList();
+            var infectedList = _infectedCollection.Find(Builders<Infected>.Filter
+            .Where(_ => _.IsDeleted != true))
+            .SortBy(_ => _.Cpf)
+            .ToList();
+            
             if(infectedList == null){
                 return Ok("Ninguém registrado.");
             }
